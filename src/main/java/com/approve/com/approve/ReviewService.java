@@ -1,5 +1,6 @@
 package com.approve.com.approve;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -45,8 +46,16 @@ public class ReviewService {
         return reviewRepository.findById(id);
     }
 
-    public void updateReview(Review review){
+    public boolean updateReview(Review review, String id){
+        Review review1 = reviewRepository.findById(id);
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Review>> violations = validator.validate(review1);
+        if(violations.size()>0 || review1 == null){
+            return false;
+        }
         reviewRepository.save(review);
+        return true;
     }
 
     public void deleteReview(String id){

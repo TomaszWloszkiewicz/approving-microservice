@@ -28,12 +28,11 @@ public class ReviewController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateReview(@PathVariable("id") String movieId, @RequestBody Review review){
-        Review result = reviewService.getReviewById(review.getId());
-        if(result == null){
+    public ResponseEntity<?> updateReview(@PathVariable("id") String id, @RequestBody Review review){
+        boolean updatedFlag = reviewService.updateReview(review, id);
+        if(updatedFlag == false){
             return new Response("Review does not exist", HttpStatus.NOT_FOUND);
         }
-        reviewService.updateReview(review);
         return new Response("Review updated", HttpStatus.OK);
     }
 
