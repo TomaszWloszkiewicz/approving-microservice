@@ -54,6 +54,7 @@ public class ReviewService {
         if(violations.size()>0 || review1 == null){
             return false;
         }
+        review.setId(id);
         reviewRepository.save(review);
         return true;
     }
